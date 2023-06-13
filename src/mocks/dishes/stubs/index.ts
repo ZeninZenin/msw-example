@@ -1,0 +1,1 @@
+export { STUB_DISHES } from './dishes'
