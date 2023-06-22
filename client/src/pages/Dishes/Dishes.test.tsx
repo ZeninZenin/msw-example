@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { Dishes } from './Dishes'
 import userEvent from '@testing-library/user-event'
 
@@ -15,7 +15,7 @@ describe('Dishes Page', () => {
     await screen.findByText('Редактирование информации о блюде')
 
     const input = await screen.findByLabelText('Название')
-    fireEvent.change(input, { target: { value: '1234' } })
+    userEvent.type(input, '1234')
 
     const confirmButton = await screen.findByRole('button', { name: 'Сохранить' })
     userEvent.click(confirmButton)
@@ -32,7 +32,7 @@ describe('Dishes Page', () => {
     await screen.findByText('Редактирование информации о блюде')
 
     const input = await screen.findByLabelText('Название')
-    fireEvent.change(input, { target: { value: '123' } })
+    userEvent.type(input, '123')
 
     const confirmButton = await screen.findByRole('button', { name: 'Сохранить' })
     userEvent.click(confirmButton)

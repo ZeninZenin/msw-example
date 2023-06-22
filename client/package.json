@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "5.16.5",
-    "@testing-library/react": "13.4.0",
+    "@testing-library/react": "14.0.0",
     "@testing-library/user-event": "13.5.0",
     "@types/jest": "27.5.2",
     "@types/node": "16.18.36",
@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start:msw": "cross-env REACT_APP_WITH_MSW=1 npm start",
+    "start:msw": "cross-env REACT_APP_WITH_MSW=1 PORT=4000 npm start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
