@@ -1,4 +1,4 @@
-import { Menu } from "../types";
+import { Menu } from "./types";
 import { dishes } from "./dishes";
 
 export const menu: Menu = {

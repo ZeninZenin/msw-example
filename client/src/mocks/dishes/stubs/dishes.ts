@@ -1,6 +1,6 @@
-import { Dish } from "./types";
+import { Dish } from "../../../types";
 
-export const dishes: Dish[] = [
+export const STUB_DISHES: Dish[] = [
   {
     id: '1',
     name: 'Овсяная каша с ягодами',

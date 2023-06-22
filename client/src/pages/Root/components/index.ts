@@ -1,0 +1,1 @@
+export { MenuOfTheDay } from './MenuOfTheDay'
