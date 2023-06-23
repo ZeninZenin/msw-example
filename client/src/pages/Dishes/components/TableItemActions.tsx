@@ -26,7 +26,7 @@ export const TableItemActions: FC<{ id: string }> = ({ id }) => {
       setEditFormVisibilityState(false)
     } else {
       const error = await response.json()
-      api.error({ message: `Не Ok. ${ERRORS[error.message as string]}`, })
+      api.error({ message: `Не Ok. ${error.message in ERRORS ? ERRORS[error.message] : error.message}`, })
     }
   }
 

@@ -26,7 +26,7 @@ server.get('/pretty', async (_, reply) => {
       </head>
       <body>
         <ul>
-          ${data.map(({ name }) => `<li>${name} - ${getPrice()}</li>`).join('')}
+          ${data.map(({ name }) => `<li style="font-size: 48px">${name} - ${getPrice()}</li>`).join('')}
         </ul>
       </body>
     </html>`
