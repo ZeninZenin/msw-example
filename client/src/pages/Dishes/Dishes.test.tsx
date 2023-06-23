@@ -2,41 +2,73 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import { Dishes } from './Dishes'
 import userEvent from '@testing-library/user-event'
+import { server } from '../../mocks/server'
+import { rest } from 'msw'
+import { getAbsoluteUrl } from '../../mocks/utils'
 
 jest.useFakeTimers()
 
+// Тест правильности нотификации
+const editResultNotificationTest = async (notificationText: string) => {
+  render(<Dishes />)
+
+  //1. Данные отобразились в таблице
+  await screen.findByText('Фейковая Овсяная каша с ягодами')
+  
+  //2. Открываем форму редактирования
+  const editButtons = await screen.findAllByTitle('Редактировать')
+  userEvent.click(editButtons[0])
+  await screen.findByText('Редактирование информации о блюде')
+
+  //3. Изменяем значение в поле 'Название'
+  const input = await screen.findByLabelText('Название')
+  userEvent.type(input, '1234')
+
+  //4. Подтверждаем изменения
+  const confirmButton = await screen.findByRole('button', { name: 'Сохранить' })
+  userEvent.click(confirmButton)
+
+  //5. Проверяем, что показана правильная нотификация
+  expect(await screen.findByText(notificationText)).toBeInTheDocument()
+}
+
+
+
+
 describe('Dishes Page', () => {
+  // Проверяем, что при успешном сохранении показывается правильная нотификация
   it('Edit dish. Success', async () => {
-    render(<Dishes />)
-    await screen.findByText('Овсяная каша с ягодами')
-    
-    const editButtons = await screen.findAllByTitle('Редактировать')
-    userEvent.click(editButtons[0])
-    await screen.findByText('Редактирование информации о блюде')
-
-    const input = await screen.findByLabelText('Название')
-    userEvent.type(input, '1234')
-
-    const confirmButton = await screen.findByRole('button', { name: 'Сохранить' })
-    userEvent.click(confirmButton)
-
-    expect(await screen.findByText('Ok')).toBeInTheDocument()
+    await editResultNotificationTest('Ok')
   })
 
-  it('Edit dish. Error', async () => {
-    render(<Dishes />) 
-    await screen.findByText('Овсяная каша с ягодами')
+  // Проверяем нотификацию в случае сохранения с уже существующим именем
+  it('Edit dish. EXISTING_NAME Error', async () => {
+    //Мокаем API редактирования специально для этого теста
+    server.use(rest.post(getAbsoluteUrl('/dishes/:dishId/edit'), (_, res, ctx) => {
+      return res(
+        ctx.status(400),
+        ctx.json({ message: 'EXISTING_NAME' })
+      )
+    }))
 
-    const editButtons = await screen.findAllByTitle('Редактировать')
-    userEvent.click(editButtons[0])
-    await screen.findByText('Редактирование информации о блюде')
+    await editResultNotificationTest('Не Ok. Блюдо с таким названием уже существует')
+  })
 
-    const input = await screen.findByLabelText('Название')
-    userEvent.type(input, '123')
+  // Проверяем нотификацию при неизвестной ошибке
+  it('Edit dish. UNKNOWN Error', async () => {
+    //Мокаем API редактирования специально для этого теста
+    server.use(rest.post(getAbsoluteUrl('/dishes/:dishId/edit'), (_, res, ctx) => {
+      return res(
+        ctx.status(500),
+        ctx.json({ message: 'UNKNOWN' })
+      )
+    }))
 
-    const confirmButton = await screen.findByRole('button', { name: 'Сохранить' })
-    userEvent.click(confirmButton)
+    await editResultNotificationTest('Не Ok. Неизвестная ошибка')
+  })
 
-    expect(await screen.findByText('Не Ok. Блюдо с таким названием уже существует')).toBeInTheDocument()
+  // Проверка того, что изменение моков в предыдущем тесте не аффектит последующие
+  it('Edit dish. Success-2', async () => {
+    await editResultNotificationTest('Ok')
   })
 })

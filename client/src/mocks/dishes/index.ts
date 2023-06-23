@@ -23,10 +23,10 @@ export const dishesHandlers: RequestHandler[] = [
   rest.post<Dish, { dishId: string }>(getAbsoluteUrl('/dishes/:dishId/edit'), async (req, res, ctx) => {
     const dish: Dish = await req.json()
 
-    if (dish.name === '123') {
+    if (dish.name === '1') {
       return res(
         ctx.status(400),
-        ctx.json({ message: 'Блюдо с таким названием уже существует' })
+        ctx.json({ message: 'EXISTING_NAME' })
       )
     }
 

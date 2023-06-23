@@ -5,6 +5,11 @@ import { EditDishForm } from "./EditDishForm";
 import { Dish } from "../../../types";
 import { config } from "../../../config";
 
+const ERRORS: Record<string, string> = {
+  EXISTING_NAME: 'Блюдо с таким названием уже существует',
+  UNKNOWN: 'Неизвестная ошибка'
+}
+
 const editDish = (dish: Dish) => {
   return fetch(`${config.API_URL}/dishes/${dish.id}/edit`, { method: 'POST', body: JSON.stringify(dish) })
 }
@@ -21,7 +26,7 @@ export const TableItemActions: FC<{ id: string }> = ({ id }) => {
       setEditFormVisibilityState(false)
     } else {
       const error = await response.json()
-      api.error({ message: `Не Ok. ${error?.message}`, })
+      api.error({ message: `Не Ok. ${ERRORS[error.message as string]}`, })
     }
   }
 
