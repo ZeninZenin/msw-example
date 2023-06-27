@@ -1,7 +1,6 @@
 import fastify from "fastify";
 import axios from "axios"
 import { Dish } from "./types";
-import { mockServer } from "./mocks/server";
 
 const getPrice = () => parseFloat(`${Math.random() * 100}`).toFixed(2)
 const setPriceForDish = (dish: Dish) => ({ ...dish, price: getPrice() })
@@ -36,6 +35,7 @@ server.get('/pretty', async (_, reply) => {
 const start = async () => {
   try {
     if (process.env.WITH_MSW) {
+      const { mockServer } = await import("./mocks/server")
       mockServer.listen()
     }
 
