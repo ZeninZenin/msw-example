@@ -43,6 +43,13 @@ const dishes: Dish[] = [
 ]
 
 const handler: Handler = async (event: HandlerEvent, context: HandlerContext) => {
+  if (!event.path.endsWith('dishes')) {
+    return {
+      statusCode: 404,
+      body: JSON.stringify({ message: 'Тут ничего нет 🤷‍♂️' }),
+    }
+  }
+
   return {
     statusCode: 200,
     body: JSON.stringify(dishes),
