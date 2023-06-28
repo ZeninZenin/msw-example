@@ -1,5 +1,5 @@
 import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
-import { Dish } from "../../src/types";
+import { Dish, Menu } from "../../src/types";
 
 const dishes: Dish[] = [
   {
@@ -42,10 +42,29 @@ const dishes: Dish[] = [
   }
 ]
 
+const menu: Menu = {
+  breakfast: {
+    primaryDish: dishes[0],
+    drink: dishes[1]
+  },
+
+  lunch: {
+    primaryDish: dishes[4],
+    drink: dishes[3],
+    secondaryDish: dishes[6]
+  },
+
+  dinner: {
+    primaryDish: dishes[7],
+    drink: dishes[2],
+    appetizer: dishes[5]
+  }
+}
+
 const handler: Handler = async (event: HandlerEvent, context: HandlerContext) => {
   return {
     statusCode: 200,
-    body: JSON.stringify(dishes),
+    body: JSON.stringify(menu),
   };
 };
 
