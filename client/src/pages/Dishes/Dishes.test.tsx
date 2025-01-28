@@ -1,12 +1,13 @@
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
+import { expect, describe, it } from 'vitest'
 import { Dishes } from './Dishes'
 import userEvent from '@testing-library/user-event'
 import { server } from '../../mocks/server'
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 import { getAbsoluteUrl } from '../../mocks/utils'
 
-jest.useFakeTimers()
+
 
 // Тест правильности нотификации
 const editResultNotificationTest = async (notificationText: string) => {
@@ -44,11 +45,8 @@ describe('Dishes Page', () => {
   // Проверяем нотификацию в случае сохранения с уже существующим именем
   it('Edit dish. EXISTING_NAME Error', async () => {
     //Мокаем API редактирования специально для этого теста
-    server.use(rest.post(getAbsoluteUrl('/dishes/:dishId/edit'), (_, res, ctx) => {
-      return res(
-        ctx.status(400),
-        ctx.json({ message: 'EXISTING_NAME' })
-      )
+    server.use(http.post(getAbsoluteUrl('/dishes/:dishId/edit'), () => {
+      return HttpResponse.json({ message: 'EXISTING_NAME' }, { status: 400 })
     }))
 
     await editResultNotificationTest('Не Ok. Блюдо с таким названием уже существует')
@@ -57,11 +55,8 @@ describe('Dishes Page', () => {
   // Проверяем нотификацию при неизвестной ошибке
   it('Edit dish. UNKNOWN Error', async () => {
     //Мокаем API редактирования специально для этого теста
-    server.use(rest.post(getAbsoluteUrl('/dishes/:dishId/edit'), (_, res, ctx) => {
-      return res(
-        ctx.status(500),
-        ctx.json({ message: 'UNKNOWN' })
-      )
+    server.use(http.post(getAbsoluteUrl('/dishes/:dishId/edit'), () => {
+      return HttpResponse.json({ message: 'UNKNOWN' }, { status: 500 })
     }))
 
     await editResultNotificationTest('Не Ok. Неизвестная ошибка')

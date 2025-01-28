@@ -1,4 +1,4 @@
-import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
+import type { Handler } from "@netlify/functions";
 import { Dish, Menu } from "../../src/types";
 
 const dishes: Dish[] = [
@@ -61,7 +61,7 @@ const menu: Menu = {
   }
 }
 
-const handler: Handler = async (event: HandlerEvent, context: HandlerContext) => {
+const handler: Handler = async () => {
   return {
     statusCode: 200,
     body: JSON.stringify(menu),

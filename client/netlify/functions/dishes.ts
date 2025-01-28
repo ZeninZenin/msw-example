@@ -1,4 +1,4 @@
-import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
+import type { Handler, HandlerEvent } from "@netlify/functions";
 import { Dish } from "../../src/types";
 
 const dishes: Dish[] = [
@@ -42,7 +42,7 @@ const dishes: Dish[] = [
   }
 ]
 
-const handler: Handler = async (event: HandlerEvent, context: HandlerContext) => {
+const handler: Handler = async (event: HandlerEvent) => {
   if (!event.path.endsWith('dishes')) {
     return {
       statusCode: 404,
