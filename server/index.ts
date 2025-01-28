@@ -1,4 +1,5 @@
 import fastify from "fastify";
+import { fastifyWebsocket } from "@fastify/websocket";
 import cors from '@fastify/cors'
 import { dishes } from "./dishes";
 import { menu } from "./menu";
@@ -15,6 +16,15 @@ server.get('/menu', async () => {
 
 const start = async () => {
   try {
+    server.register(fastifyWebsocket)
+
+    server.register(async function (fastify) {
+      fastify.get('/', { websocket: true }, socket => {
+        socket.on('message', () => {
+          socket.send('hi from server')
+        })
+      })
+    })
     await server.register(cors)
     await server.listen({ port: 3001 })
   } catch (err) {
