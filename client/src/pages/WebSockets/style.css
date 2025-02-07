@@ -1,0 +1,13 @@
+.counter-button {
+  font-size: 56px;
+  line-height: 56px;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter-result {
+  font-size: 56px;
+}

@@ -1,12 +1,13 @@
 body {
   padding: 40px 80px;
+  background-color: #fff;
 }
 
 main {
   padding: 20px 0
 }
 
-nav > a {
+.nav-link {
   font-size: 22px;
   font-weight: 500;
   color: #1677ff;
@@ -15,10 +16,17 @@ nav > a {
   padding: 8px;
 }
 
-nav > a:hover,
-nav > a.active {
+.nav-link:hover,
+.nav-link.active {
   color: #fff;
   background-color: #1677ff;
+}
+
+nav .ant-space-item:not(:last-child) > a::after {
+  content: '|';
+  padding-left: 28px;
+  position: absolute;
+  color: #1677ff;
 }
 
 h1 {
