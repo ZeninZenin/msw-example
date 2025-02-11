@@ -1,6 +1,6 @@
 import { ws } from "msw"
 import { config } from "../../config"
-import { mockScenarios } from "../config"
+import { scenariosConfig } from "../config"
 import { scenarios } from "./scenarios"
 
 export const mockWebSocketLink = ws.link(config.WS_URL)
@@ -22,22 +22,22 @@ export const wsHandlers = [
     })
   }),
 
-  ...Object.entries(mockScenarios)
+  ...Object.entries(scenariosConfig)
     .filter(([, enabled]) => enabled)
     .map(([scenario]) => scenarios[scenario]?.() ?? [])
     .flat(),
 
-    mockWebSocketLink.addEventListener('connection', ({ client }) => {
-      client.addEventListener('message', async event => {
-        const { action, reqId } = JSON.parse(event.data as string)
-        const handler = asyncFeaturesMocks.get(action)
+  mockWebSocketLink.addEventListener('connection', ({ client }) => {
+    client.addEventListener('message', async event => {
+      const { action, reqId } = JSON.parse(event.data as string)
+      const handler = asyncFeaturesMocks.get(action)
 
-        if (!handler) {
-          return
-        }
+      if (!handler) {
+        return
+      }
 
-        event.preventDefault()
-        client.send(JSON.stringify({ reqId, action: `${action}:result`, result: await handler() }))
-      })
-    }),
+      event.preventDefault()
+      client.send(JSON.stringify({ reqId, action: `${action}:result`, result: await handler() }))
+    })
+  }),
 ]
