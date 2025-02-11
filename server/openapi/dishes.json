@@ -1,0 +1,42 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "dishes",
+    "version": "1"
+  },
+  "host": "localhost:3001",
+  "paths": {
+    "/dishes": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Dish"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Dish": {
+      "type": "object",
+      "required": ["name", "id"],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "calories": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}

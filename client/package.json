@@ -10,7 +10,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "generate-mocks": "npx msw-auto-mock ../server/openapi/dishes.json -o ./generated-mock-example"
   },
   "dependencies": {
     "antd": "5.23.2",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
+    "@faker-js/faker": "9.4.0",
     "@netlify/functions": "3.0.0",
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "16.2.0",
@@ -37,6 +39,7 @@
     "globals": "^15.14.0",
     "jsdom": "26.0.0",
     "msw": "2.7.0",
+    "msw-auto-mock": "0.25.0",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5",
