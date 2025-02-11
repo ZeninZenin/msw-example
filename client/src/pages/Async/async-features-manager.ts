@@ -15,11 +15,7 @@ export const registerMocks = asyncFeaturesMocks ? (featureIds?: string[]) => {
 } : () => { }
 
 export const unregisterMocks = asyncFeaturesMocks ? () => {
-  for (const mocksFeatureId in featureMockDefinitions) {
-    for (const mockActionId in featureMockDefinitions[mocksFeatureId]) {
-      asyncFeaturesMocks.delete(`${mocksFeatureId}:${mockActionId}`)
-    }
-  }
+  asyncFeaturesMocks.clear()
 } : () => { }
 
 export const onAnnounceFeature = (cb: (feature: AsyncFeatureRef) => void) => {
