@@ -10,7 +10,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
       <BrowserRouter>
         <nav>
-          <Space size={56}>
+          <Space size={32}>
             <NavLink className="nav-link" to="/">Меню на сегодня</NavLink>
             <NavLink className="nav-link" to="/dishes">Список блюд</NavLink>
             <NavLink className="nav-link" to="/websocket">Пример WebSocket</NavLink>

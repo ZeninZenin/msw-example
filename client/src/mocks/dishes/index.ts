@@ -5,12 +5,12 @@ import { Dish } from "../../types";
 
 export const dishesHandlers: RequestHandler[] = [
   http.get(getAbsoluteUrl('/dishes'), () => {
-    return HttpResponse.json(STUB_DISHES)
+    return HttpResponse.json<Dish[]>(STUB_DISHES)
   }),
 
-  http.get<{ dishId: string }, Dish | undefined>(getAbsoluteUrl('/dishes/:dishId'), ({ params }) => {
+  http.get<{ dishId: string }, null, Dish | undefined>(getAbsoluteUrl('/dishes/:dishId'), ({ params }) => {
     const { dishId } = params
-    return HttpResponse.json(STUB_DISHES.find(({ id }) => id === dishId))
+    return HttpResponse.json<Dish | undefined>(STUB_DISHES.find(({ id }) => id === dishId))
   }),
 
   http.post<{ dishId: string }, Dish>(getAbsoluteUrl('/dishes/:dishId/edit'), async ({ request }) => {

@@ -1,6 +1,8 @@
 body {
-  padding: 40px 80px;
+  padding: 20px;
   background-color: #fff;
+  max-width: 960px;
+  box-sizing: border-box;
 }
 
 main {
@@ -24,7 +26,7 @@ main {
 
 nav .ant-space-item:not(:last-child) > a::after {
   content: '|';
-  padding-left: 28px;
+  padding-left: 22px;
   position: absolute;
   color: #1677ff;
 }
