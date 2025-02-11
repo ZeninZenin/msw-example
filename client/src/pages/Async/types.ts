@@ -14,3 +14,5 @@ export interface AsyncFeatureRef {
 export interface AsyncFeature extends AsyncFeatureRef {
   actions: Action[]
 }
+
+export type MockDefinition = Record<string, () => unknown>

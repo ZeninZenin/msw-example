@@ -1,18 +1,22 @@
-import { features, featuresMocks } from "./fake-async-features"
+import { featureMockDefinitions, features } from "./fake-async-features"
 import { AsyncFeatureRef } from "./types"
 const { asyncFeaturesMocks } = import.meta.env.VITE_ENABLE_MSW ? await import('../../mocks/ws/handlers') : {}
 
-export const registerMocks = asyncFeaturesMocks ? () => {
-  for (const mocksFeatureId in featuresMocks) {
-    for (const mockActionId in featuresMocks[mocksFeatureId]) {
-      asyncFeaturesMocks.set(`${mocksFeatureId}:${mockActionId}`, featuresMocks[mocksFeatureId][mockActionId])
+export const registerMocks = asyncFeaturesMocks ? (featureIds?: string[]) => {
+  for (const mocksFeatureId in featureMockDefinitions) {
+    if (featureIds && !featureIds.includes(mocksFeatureId)) {
+      continue
+    }
+
+    for (const mockActionId in featureMockDefinitions[mocksFeatureId]) {
+      asyncFeaturesMocks.set(`${mocksFeatureId}:${mockActionId}`, featureMockDefinitions[mocksFeatureId][mockActionId])
     }
   }
 } : () => { }
 
 export const unregisterMocks = asyncFeaturesMocks ? () => {
-  for (const mocksFeatureId in featuresMocks) {
-    for (const mockActionId in featuresMocks[mocksFeatureId]) {
+  for (const mocksFeatureId in featureMockDefinitions) {
+    for (const mockActionId in featureMockDefinitions[mocksFeatureId]) {
       asyncFeaturesMocks.delete(`${mocksFeatureId}:${mockActionId}`)
     }
   }
@@ -30,7 +34,7 @@ export const requestFeatureApi = async (featureId: string) => {
   })
 
   if (asyncFeaturesMocks) {
-    registerMocks()
+    registerMocks([featureId])
   }
 
   return features[featureId]

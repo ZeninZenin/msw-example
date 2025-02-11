@@ -24,7 +24,7 @@ export const FeatureCard: FC<FeatureCardProps> = ({ id, name, actions }) => {
     hoverable
     styles={{
       title: {
-        fontSize: 56
+        fontSize: 48
       },
       body: {
         fontSize: 32
